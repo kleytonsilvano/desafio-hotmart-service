@@ -1,7 +1,6 @@
 package com.desafio.models;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,22 +15,16 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "tb_produto")
-public class Produto implements Serializable{
+@Table(name = "tb_buyer")
+public class Buyer implements Serializable{
 
-	private static final long serialVersionUID = -1806602431048963649L;
+	private static final long serialVersionUID = -3640868649574967406L;
 
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
-	private String nome;
-
-    @Column
-	private String descricao;
-    
-    @Column
-    private Date dataCriacao;
+	private String name;
 
 }
