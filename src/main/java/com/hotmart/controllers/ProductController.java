@@ -1,4 +1,4 @@
-package com.desafio.controllers;
+package com.hotmart.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

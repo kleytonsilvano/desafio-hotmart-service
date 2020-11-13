@@ -1,4 +1,4 @@
-package com.desafio.models;
+package com.hotmart.models;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.desafio.models;
+package com.hotmart.models;
 
 import java.io.Serializable;
 
@@ -18,8 +18,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "tb_rating")
-public class Rating implements Serializable{
+@Table(name = "tb_sale")
+public class Sale implements Serializable{
 
 	private static final long serialVersionUID = -6271916395464060342L;
 
@@ -28,11 +28,15 @@ public class Rating implements Serializable{
     private Integer id;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "product")
-	private Product product;
-
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "salesman")
 	private Salesman salesman;
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "buyer")
+	private Buyer buyer;
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "product")
+	private Product product;
 
 }
