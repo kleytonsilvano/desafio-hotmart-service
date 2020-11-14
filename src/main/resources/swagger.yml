@@ -43,7 +43,7 @@ paths:
         schema:
           $ref: "#/definitions/ProductModel"
       responses:
-        "200":
+        "201":
           description: "successful operation"
         "400":
           description: "Invalid product"
