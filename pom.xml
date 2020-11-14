@@ -7,7 +7,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.3.5.RELEASE</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath />
 	</parent>
 	<groupId>com.group</groupId>
 	<artifactId>desafio-hotmart</artifactId>
@@ -24,17 +24,15 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		
+		<!-- BD -->
+		
+		<!-- 
 		<dependency>
 	        <groupId>org.hibernate</groupId>
 	        <artifactId>hibernate-core</artifactId>
@@ -43,7 +41,21 @@
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>javax.persistence-api</artifactId>
+		</dependency> 
+		-->
+		
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		
+		<!--   -->
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -51,11 +63,6 @@
 			<optional>true</optional>
 		</dependency>
 
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<scope>runtime</scope>
-		</dependency>
         
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -68,6 +75,29 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
+		<!-- Swagger -->
+		
+		<dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>openapi-generator-maven-plugin</artifactId>
+            <version>4.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>openapi-generator</artifactId>
+            <version>4.3.1</version>
+        </dependency>
+        
+        <dependency>
+		    <groupId>org.openapitools</groupId>
+		    <artifactId>jackson-databind-nullable</artifactId>
+		    <version>0.2.1</version>
+		</dependency>
+		
+		<!-- Swagger -->
+		
 	</dependencies>
 
 	<build>
@@ -75,6 +105,34 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			
+			<!-- Maven -->
+			<plugin>
+			   <groupId>org.openapitools</groupId>
+			   <artifactId>openapi-generator-maven-plugin</artifactId>
+			   <version>4.3.1</version>
+			   <executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/swagger.yml</inputSpec>
+							<generatorName>spring</generatorName>
+			                <apiPackage>gen.api</apiPackage>
+			                <modelPackage>gen.models</modelPackage>
+			                <generateApiTests>false</generateApiTests>
+                            <generateApiDocumentation>false</generateApiDocumentation>
+                            <generateModelTests>false</generateModelTests>
+                            <generateModelDocumentation>false</generateModelDocumentation>
+                            <configOptions>
+                                <dateLibrary>java8-localdatetime</dateLibrary>
+                                <interfaceOnly>true</interfaceOnly>
+                            </configOptions>
+						</configuration>
+					</execution>
+			   </executions>
 			</plugin>
 		</plugins>
 	</build>
