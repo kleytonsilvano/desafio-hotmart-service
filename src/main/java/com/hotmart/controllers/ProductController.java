@@ -14,11 +14,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hotmart.exceptions.BadRequestException;
 import com.hotmart.models.Product;
+import com.hotmart.models.ProductCategory;
+import com.hotmart.repository.ProductCategoryRepository;
 import com.hotmart.repository.ProductRepository;
 import com.hotmart.utils.ClassConverter;
 
 import gen.api.ProductsApi;
+import gen.models.ProductCreationModel;
 import gen.models.ProductModel;
 
 @RestController
@@ -27,14 +31,17 @@ public class ProductController implements ProductsApi {
 	@Autowired
 	private ProductRepository repository;
 
+	@Autowired
+	private ProductCategoryRepository productCategoryRepository;
+
 	@Override
-	public ResponseEntity<Void> addProduct(@Valid @RequestBody ProductModel body) {
+	public ResponseEntity<Void> addProduct(@Valid @RequestBody ProductCreationModel body) {
 		
     	if( body != null ) {
 
-    		Product product = (Product) ClassConverter.copyProperties(new Product(), body);
-    		product.setCreationDate(new Date());
-    		repository.save(product);
+    		List<ProductCategory> categories = findCategories(body);
+    		saveProduct(body, categories);
+    		
     		return new ResponseEntity<>(HttpStatus.CREATED);
     		
     	}
@@ -42,6 +49,37 @@ public class ProductController implements ProductsApi {
     	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
     }
+
+	private List<ProductCategory> findCategories(ProductCreationModel body) {
+		
+		List<ProductCategory> listReturn = new ArrayList<>();
+		
+		for (String category : body.getCategories()) {
+			
+			ProductCategory prodCategory = productCategoryRepository.findByName(category);
+			
+			if(prodCategory != null) {
+				
+				throw new BadRequestException();
+				
+			} else {
+				
+				listReturn.add(prodCategory);
+				
+			}
+			
+		}
+		
+		return listReturn;
+		
+	}
+
+	private void saveProduct(ProductCreationModel body, List<ProductCategory> categories) {
+		Product product = (Product) ClassConverter.copyProperties(new Product(), body.getProduct());
+		product.setCreationDate(new Date());
+		product.setCategories(categories);
+		repository.save(product);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
