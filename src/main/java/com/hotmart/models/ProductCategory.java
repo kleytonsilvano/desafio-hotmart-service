@@ -15,7 +15,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "tb_product_category")
+@Table(name = "tb_category")
 public class ProductCategory implements Serializable{
 
 	private static final long serialVersionUID = 7154471371618630597L;
@@ -26,5 +26,7 @@ public class ProductCategory implements Serializable{
 
     @Column
 	private String name;
+    
+    
 
 }
