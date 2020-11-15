@@ -11,6 +11,8 @@ tags:
   description: "API's referring to the purchase of products"
 - name: "customer"
   description: "Everything about customers"
+- name: "salesman"
+  description: "Everything about salesman"
 schemes:
 - "https"
 - "http"
@@ -148,6 +150,29 @@ paths:
           description: "successful operation"
         "400":
           description: "Invalid product"
+        "401":
+          description: "Client not registered"
+  /salesman:
+    post:
+      tags:
+      - "salesman"
+      summary: "Add a new salesman"
+      description: "Add a new salesman"
+      operationId: "addSalesman"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "New Salesman"
+        required: true
+        schema:
+          $ref: "#/definitions/SalesmanModel"
+      responses:
+        "201":
+          description: "successful operation"
+        "400":
+          description: "Invalid product"
   /customer:
     post:
       tags:
@@ -163,7 +188,7 @@ paths:
         description: "New Customer"
         required: true
         schema:
-          $ref: "#/definitions/Customer"
+          $ref: "#/definitions/CustomerModel"
       responses:
         "201":
           description: "successful operation"
@@ -192,6 +217,7 @@ definitions:
     required:
     - id_customer
     - id_product
+    - id_salesman
     properties:
       id_customer:
         type: "integer"
@@ -199,15 +225,24 @@ definitions:
       id_product:
         type: "integer"
         format: "int64"
+      id_salesman:
+        type: "integer"
+        format: "int64"
       rating:
         type: "integer"
         minimum: 0
         maximum: 5
-  Customer:
+  CustomerModel:
     type: "object"
     required:
     - name
     properties:
       name:
         type: "string"
-    
+  SalesmanModel:
+    type: "object"
+    required:
+    - name
+    properties:
+      name:
+        type: "string"
