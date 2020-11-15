@@ -89,6 +89,43 @@ public class ProductController implements ProductsApi {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
 	}
+
+	@Override
+	public ResponseEntity<Void> updateProduct(@Valid @RequestBody ProductModel body) {
+		
+		Optional<Product> product = repository.findById(body.getId());
+    	
+    	if(product.isPresent()) {
+    		
+    		Product p = product.get();
+    		p.setCategories(findCategories(body));
+    		p.setDescription(body.getDescription());
+    		p.setName(body.getName());
+    		repository.save(p);
+
+    		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    		
+    	}
+
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+    }
+	
+	@Override
+	public ResponseEntity<Void> deleteProduct(@PathVariable("idProduct") Long idProduct) {
+
+    	if(repository.existsById(idProduct)) {
+    		
+    		repository.deleteById(idProduct);
+
+    		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    		
+    	}
+		
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+    }
+
 	
 	
 	private List<Category> findCategories(ProductModel body) {
