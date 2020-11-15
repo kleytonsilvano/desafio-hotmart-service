@@ -12,7 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -38,10 +38,10 @@ public class Product implements Serializable{
     @Column
 	private String description;
     
-    @OneToMany(fetch=FetchType.LAZY)
+    @ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(name="tb_product_categories",
-	            joinColumns =        {@JoinColumn(name = "product")}, 
-	            inverseJoinColumns = {@JoinColumn(name="category")})
+	            joinColumns =        {@JoinColumn(name = "product_id" )}, 
+	            inverseJoinColumns = {@JoinColumn(name="category_id" )})
 	private List<Category> categories;
     
     @Column(name = "creation_date")
