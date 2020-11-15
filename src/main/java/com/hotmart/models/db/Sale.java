@@ -25,18 +25,18 @@ public class Sale implements Serializable{
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+	private Long id;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "salesman")
+	@JoinColumn(name = "salesman_id")
 	private Salesman salesman;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "buyer")
+	@JoinColumn(name = "buyer_id")
 	private Buyer buyer;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "product")
+	@JoinColumn(name = "product_id")
 	private Product product;
 
 }

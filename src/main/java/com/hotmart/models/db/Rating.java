@@ -3,6 +3,7 @@ package com.hotmart.models.db;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -28,11 +29,10 @@ public class Rating implements Serializable{
     private Integer id;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "product")
-	private Product product;
+	@JoinColumn(name = "sale_id")
+	private Sale sale;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "salesman")
-	private Salesman salesman;
+    @Column
+	private Integer rate;
 
 }
