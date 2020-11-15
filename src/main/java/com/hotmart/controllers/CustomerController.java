@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hotmart.models.Buyer;
 import com.hotmart.repository.BuyerRepository;
 
-import gen.api.CustomerApi;
+import gen.api.CustomersApi;
 import gen.models.CustomerModel;
 
 @RestController
-public class CustomerController implements CustomerApi {
+public class CustomerController implements CustomersApi {
 	
 	@Autowired
 	private BuyerRepository repository;

@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hotmart.models.Salesman;
 import com.hotmart.repository.SalesmanRepository;
 
-import gen.api.SalesmanApi;
+import gen.api.SalesmansApi;
 import gen.models.SalesmanModel;
 
 @RestController
-public class SalesmanController implements SalesmanApi {
+public class SalesmanController implements SalesmansApi {
 	
 	@Autowired
 	private SalesmanRepository repository;
