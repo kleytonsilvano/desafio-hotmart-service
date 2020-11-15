@@ -41,7 +41,7 @@ paths:
         description: "order placed for purchasing the pet"
         required: true
         schema:
-          $ref: "#/definitions/ProductCreationModel"
+          $ref: "#/definitions/ProductModel"
       responses:
         "201":
           description: "successful operation"
@@ -113,23 +113,15 @@ paths:
 definitions:
   ProductModel:
     type: "object"
+    required:
+    - name
+    - categories
     properties:
       name:
         type: "string"
       description:
         type: "string"
-  ProductCreationModel:
-    type: "object"
-    required:
-      - categories
-      - product
-    properties:
-      product:
-        $ref: "#/definitions/ProductModel"
       categories:
         type: "array"
         items:
           type: "string"
-    
-      
-    
