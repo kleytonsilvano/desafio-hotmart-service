@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hotmart.models.Buyer;
+import com.hotmart.models.db.Buyer;
 import com.hotmart.repository.BuyerRepository;
 
 import gen.api.CustomersApi;

@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hotmart.converter.ProductModelConverter;
 import com.hotmart.exceptions.BadRequestException;
-import com.hotmart.models.Category;
-import com.hotmart.models.Product;
+import com.hotmart.models.db.Category;
+import com.hotmart.models.db.Product;
 import com.hotmart.repository.CategoryRepository;
 import com.hotmart.repository.ProductRepository;
 

@@ -1,4 +1,4 @@
-package com.hotmart.models;
+package com.hotmart.models.db;
 
 import java.io.Serializable;
 

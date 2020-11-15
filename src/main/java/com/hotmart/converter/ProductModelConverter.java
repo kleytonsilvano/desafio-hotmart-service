@@ -3,8 +3,8 @@ package com.hotmart.converter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hotmart.models.Category;
-import com.hotmart.models.Product;
+import com.hotmart.models.db.Category;
+import com.hotmart.models.db.Product;
 
 import gen.models.ProductModel;
 

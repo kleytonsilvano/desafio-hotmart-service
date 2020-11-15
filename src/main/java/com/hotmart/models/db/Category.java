@@ -1,4 +1,4 @@
-package com.hotmart.models;
+package com.hotmart.models.db;
 
 import java.io.Serializable;
 
@@ -15,10 +15,10 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "tb_salesman")
-public class Salesman implements Serializable{
+@Table(name = "tb_category")
+public class Category implements Serializable{
 
-	private static final long serialVersionUID = -792775996293911157L;
+	private static final long serialVersionUID = 7154471371618630597L;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,5 +26,7 @@ public class Salesman implements Serializable{
 
     @Column
 	private String name;
+    
+    
 
 }

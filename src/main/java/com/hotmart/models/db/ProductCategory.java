@@ -1,8 +1,5 @@
-package com.hotmart.models;
+package com.hotmart.models.db;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,18 +12,11 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "tb_category")
-public class Category implements Serializable{
-
-	private static final long serialVersionUID = 7154471371618630597L;
+@Table(name = "tb_product_categories")
+public class ProductCategory {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column
-	private String name;
-    
-    
-
+    private Long id;
+	
 }
