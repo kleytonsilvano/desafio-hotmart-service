@@ -30,7 +30,7 @@ public class Product implements Serializable{
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column
 	private String name;
@@ -42,7 +42,7 @@ public class Product implements Serializable{
 	@JoinTable(name="tb_product_categories",
 	            joinColumns =        {@JoinColumn(name = "product")}, 
 	            inverseJoinColumns = {@JoinColumn(name="category")})
-	private List<ProductCategory> categories;
+	private List<Category> categories;
     
     @Column(name = "creation_date")
     @Temporal(TemporalType.TIMESTAMP)

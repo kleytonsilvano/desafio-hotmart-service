@@ -6,20 +6,24 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hotmart.converter.ProductModelConverter;
 import com.hotmart.exceptions.BadRequestException;
+import com.hotmart.models.Category;
 import com.hotmart.models.Product;
-import com.hotmart.models.ProductCategory;
-import com.hotmart.repository.ProductCategoryRepository;
+import com.hotmart.repository.CategoryRepository;
 import com.hotmart.repository.ProductRepository;
 
 import gen.api.ProductsApi;
@@ -32,7 +36,7 @@ public class ProductController implements ProductsApi {
 	private ProductRepository repository;
 
 	@Autowired
-	private ProductCategoryRepository productCategoryRepository;
+	private CategoryRepository categoryRepository;
 	
 	@Autowired
 	private ProductModelConverter converter;
@@ -56,13 +60,14 @@ public class ProductController implements ProductsApi {
     }
 
 	@Override
-    public ResponseEntity<List<ProductModel>> listProducts() {
+    public ResponseEntity<List<ProductModel>> listProducts(@NotNull @Valid @RequestParam(value = "page", required = true) Integer page,
+    													 	 	    @Valid @RequestParam(value = "size", required = false) Integer size) {
 		
-    	List<Product> products = repository.findAll();
+    	Page<Product> products = repository.findAll(PageRequest.of(page, size != null ? size : this.defaultPageSize));
     	
-    	if( products != null && !products.isEmpty()) {
+    	if( products != null && products.hasContent()) {
     		
-    		return new ResponseEntity<>(converter.converter(products), HttpStatus.OK);
+    		return new ResponseEntity<>(converter.converter(products.getContent()), HttpStatus.OK);
     		
     	}
     	
@@ -86,13 +91,13 @@ public class ProductController implements ProductsApi {
 	}
 	
 	
-	private List<ProductCategory> findCategories(ProductModel body) {
+	private List<Category> findCategories(ProductModel body) {
 		
-		List<ProductCategory> listReturn = new ArrayList<>();
+		List<Category> listReturn = new ArrayList<>();
 		
 		for (String category : body.getCategories()) {
 			
-			ProductCategory prodCategory = productCategoryRepository.findByName(category);
+			Category prodCategory = categoryRepository.findByName(category);
 			
 			if(prodCategory != null) {
 				

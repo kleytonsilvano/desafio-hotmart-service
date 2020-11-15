@@ -3,8 +3,8 @@ package com.hotmart.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hotmart.models.Category;
 import com.hotmart.models.Product;
-import com.hotmart.models.ProductCategory;
 
 import gen.models.ProductModel;
 
@@ -17,9 +17,10 @@ public class ProductModelConverter implements Converter<ProductModel, Product>{
 		returnProductModel
 			.description(obj.getDescription())
 			.name(obj.getName())
-			.categories(new ArrayList<>());
+			.categories(new ArrayList<>())
+			.id(obj.getId());
 		
-		for (ProductCategory productCategory : obj.getCategories()) {
+		for (Category productCategory : obj.getCategories()) {
 			returnProductModel.addCategoriesItem(productCategory.getName());
 		}
 

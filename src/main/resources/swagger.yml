@@ -20,6 +20,15 @@ paths:
       operationId: "listProducts"
       produces:
       - "application/json"
+      parameters:
+        - in: query
+          name: page
+          type: integer
+          required: true
+        - in: query
+          name: size
+          type: integer
+          required: false
       responses:
         "200":
           description: "successful operation"
@@ -117,6 +126,9 @@ definitions:
     - name
     - categories
     properties:
+      id:
+        type: "integer"
+        format: "int64"
       name:
         type: "string"
       description:
@@ -125,3 +137,4 @@ definitions:
         type: "array"
         items:
           type: "string"
+    
