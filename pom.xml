@@ -13,7 +13,7 @@
 	<artifactId>desafio-hotmart-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>desafio-hotmart-service</name>
-	<description>Desafio proposto pela Hotmart</description>
+	<description>Service responsible for exposing marketplace apis</description>
 
 	<properties>
 		<java.version>1.8</java.version>
