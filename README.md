@@ -1,4 +1,4 @@
-# DESAFIO-HOTMART
+# DESAFIO-HOTMART-SERVICE
 
 <p> As variáveis necessárias para o projeto estão no arquivo de configurações do spring em: 
 <strong> src/main/resources/application.properties. Só rodar :) </strong>
@@ -8,8 +8,7 @@
 <p> Pode ser utilizado qualquer outro banco compatível com o JPA. Para continuar utilizando o MySQL seguir: </p>
 
 <br/><h1>Funcionamento</h1>
-<p> Esta API é feita utilizando as tecnologias: Java8 / Spring / Spring Data </p>
-
+<p> Esta API é feita utilizando as tecnologias: Java8 / Spring / Spring Data / Spring WEB</p>
 
 <br/><h1>Pontos de melhoria</h1>
 <p> - Segurança utilizando tokens OAuth JWT </p>
