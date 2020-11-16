@@ -13,13 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hotmart.exceptions.ValidationException;
 import com.hotmart.models.db.Buyer;
 import com.hotmart.models.db.Product;
-import com.hotmart.models.db.Rating;
 import com.hotmart.models.db.Sale;
 import com.hotmart.models.db.Salesman;
 import com.hotmart.models.enums.ValidationMessage;
 import com.hotmart.repository.BuyerRepository;
 import com.hotmart.repository.ProductRepository;
-import com.hotmart.repository.RatingRepository;
 import com.hotmart.repository.SaleRepository;
 import com.hotmart.repository.SalesmanRepository;
 
@@ -41,9 +39,6 @@ public class ShoppingController implements ShoppingsApi {
 	@Autowired
 	private SaleRepository saleRepository;
 
-	@Autowired
-	private RatingRepository ratingRepository;
-	
 	public ResponseEntity<Void> buyProduct(@Valid @RequestBody ShoppingProduct body) {
 		
 		Optional<Buyer> buyer = buyerRepository.findById(body.getIdCustomer());
@@ -53,8 +48,7 @@ public class ShoppingController implements ShoppingsApi {
 			Optional<Salesman> salesman = findSalesman(body.getIdSalesman());
 			Optional<Product> product = findProduct(body.getIdProduct());
 			
-			Sale sale = saveSale(buyer, salesman, product);
-			saveRating(sale, body.getRating());
+			saveSale(buyer, salesman, product, body.getRating());
 
     		return new ResponseEntity<>(HttpStatus.CREATED);
 			
@@ -64,24 +58,14 @@ public class ShoppingController implements ShoppingsApi {
 
     }
 
-	private void saveRating(Sale sale, Integer rate) {
-		
-		Rating rating = new Rating();
-		rating.setRate(rate);
-		rating.setSale(sale);
-		ratingRepository.save(rating);
-		
-	}
-
-	private Sale saveSale(Optional<Buyer> buyer, Optional<Salesman> salesman, Optional<Product> product) {
+	private void saveSale(Optional<Buyer> buyer, Optional<Salesman> salesman, Optional<Product> product, Integer rating) {
 		
 		Sale sale = new Sale();
 		sale.setBuyer(buyer.get());
 		sale.setProduct(product.get());
 		sale.setSalesman(salesman.get());
+		sale.setRate(rating);
 		saleRepository.save(sale);
-		
-		return sale;
 		
 	}
 
