@@ -1,6 +1,8 @@
 package com.hotmart.controllers;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -19,11 +21,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hotmart.converter.ProductModelConverter;
 import com.hotmart.converter.ProductResponseConverter;
 import com.hotmart.exceptions.BadRequestException;
 import com.hotmart.models.db.Category;
 import com.hotmart.models.db.Product;
+import com.hotmart.models.enums.OrderByEnum;
 import com.hotmart.repository.CategoryRepository;
 import com.hotmart.repository.ProductRepository;
 
@@ -39,9 +41,6 @@ public class ProductController implements ProductsApi {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
-
-	@Autowired
-	private ProductModelConverter productModelConverter;
 
 	@Autowired
 	private ProductResponseConverter productResponseConverter; 
@@ -63,33 +62,47 @@ public class ProductController implements ProductsApi {
     	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
     }
-
+	
 	@Override
     public ResponseEntity<List<ProductResponse>> listProducts(@NotNull @Valid @RequestParam(value = "page", required = true) Integer page,
 													  				@Valid @RequestParam(value = "size", required = false) Integer size,
 													  				@Valid @RequestParam(value = "orderBy", required = false) String orderBy) {
-			 
+		Page<Product> products;
 		
-    	Page<Product> products = productRepository.findAll(PageRequest.of(page, size != null ? size : this.defaultPageSize));
-    	
-    	if( products != null && products.hasContent()) {
-    		
-    		return new ResponseEntity<>(productResponseConverter.converter(products.getContent()), HttpStatus.OK);
-    		
-    	}
-    	
-    	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		if(orderBy != null ) {
+			
+			OrderByEnum orderByEnum = OrderByEnum.valueOf(orderBy.toUpperCase());
+			
+			switch (orderByEnum) {
+				case CATEGORY:
+					products = productRepository.findAllByOrderByCategoriesNameAsc(PageRequest.of(page, size != null ? size : this.defaultPageSize));
+					break;
+				case NAME:
+					products = productRepository.findAllByOrderByNameAsc(PageRequest.of(page, size != null ? size : this.defaultPageSize));
+					break;
+				default:
+					products = productRepository.findAll(PageRequest.of(page, size != null ? size : this.defaultPageSize));
+					return orderByScore(products);
+			}
+			
+		} else {
+			
+			products = productRepository.findAll(PageRequest.of(page, size != null ? size : this.defaultPageSize));
+			
+		}
+		
+		return validateProducts(products);
     	
     }
 
 	@Override
-	public ResponseEntity<ProductModel> findProductById(@PathVariable("idProduct") Long idProduct) {
+	public ResponseEntity<ProductResponse> findProductById(@PathVariable("idProduct") Long idProduct) {
 		
 		Optional<Product> product = productRepository.findById(idProduct);
     	
     	if(product.isPresent()) {
     		
-    		return new ResponseEntity<>(productModelConverter.converter(product.get()), HttpStatus.OK);
+    		return new ResponseEntity<>(productResponseConverter.converter(product.get()), HttpStatus.OK);
     		
     	}
 		
@@ -169,5 +182,38 @@ public class ProductController implements ProductsApi {
 		productRepository.save(product);
 		
 	}
+	
+	private ResponseEntity<List<ProductResponse>> validateProducts(Page<Product> products) {
+		
+		if( products != null && products.hasContent()) {
+    		
+    		return new ResponseEntity<>(productResponseConverter.converter(products.getContent()), HttpStatus.OK);
+    		
+    	}
+		
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
+	
+	private ResponseEntity<List<ProductResponse>> orderByScore(Page<Product> products) {
+
+		if( products != null && products.hasContent()) {
+			
+			 List<ProductResponse> listProductResponses = productResponseConverter.converter(products.getContent());
+			 
+			 Collections.sort(listProductResponses, new Comparator<ProductResponse>() {
+				 @Override
+				 public int compare(ProductResponse p1, ProductResponse p2) {
+					 return p2.getScore().compareTo(p1.getScore());
+				 }
+			 });
+
+			 return new ResponseEntity<>(listProductResponses, HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+	}
+	
 }
 
