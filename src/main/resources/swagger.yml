@@ -35,13 +35,18 @@ paths:
           name: size
           type: integer
           required: false
+        - in: query
+          name: orderBy
+          type: string
+          enum: ['name', 'score', 'category']
+          required: false
       responses:
         "200":
           description: "successful operation"
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/ProductModel"
+              $ref: "#/definitions/ProductResponse"
     post:
       tags:
       - "products"
@@ -195,6 +200,26 @@ paths:
         "400":
           description: "Invalid product"
 definitions:
+  ProductResponse:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      description:
+        type: "string"
+      categories:
+        type: "array"
+        items:
+          type: "string"
+      creationDate:
+        type: "string"
+        format: "date"
+      score:
+        type: "number"
+        format: "double"
   ProductModel:
     type: "object"
     required:

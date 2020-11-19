@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hotmart.converter.ProductModelConverter;
+import com.hotmart.converter.ProductResponseConverter;
 import com.hotmart.exceptions.BadRequestException;
 import com.hotmart.models.db.Category;
 import com.hotmart.models.db.Product;
@@ -28,18 +29,22 @@ import com.hotmart.repository.ProductRepository;
 
 import gen.api.ProductsApi;
 import gen.models.ProductModel;
+import gen.models.ProductResponse;
 
 @RestController
 public class ProductController implements ProductsApi {
 	
 	@Autowired
-	private ProductRepository repository;
+	private ProductRepository productRepository;
 
 	@Autowired
 	private CategoryRepository categoryRepository;
-	
+
 	@Autowired
-	private ProductModelConverter converter;
+	private ProductModelConverter productModelConverter;
+
+	@Autowired
+	private ProductResponseConverter productResponseConverter; 
 	
 	@Value("${DEFAULT_PAGE_SIZE}")
 	private Integer defaultPageSize;
@@ -60,14 +65,16 @@ public class ProductController implements ProductsApi {
     }
 
 	@Override
-    public ResponseEntity<List<ProductModel>> listProducts(@NotNull @Valid @RequestParam(value = "page", required = true) Integer page,
-    													 	 	    @Valid @RequestParam(value = "size", required = false) Integer size) {
+    public ResponseEntity<List<ProductResponse>> listProducts(@NotNull @Valid @RequestParam(value = "page", required = true) Integer page,
+													  				@Valid @RequestParam(value = "size", required = false) Integer size,
+													  				@Valid @RequestParam(value = "orderBy", required = false) String orderBy) {
+			 
 		
-    	Page<Product> products = repository.findAll(PageRequest.of(page, size != null ? size : this.defaultPageSize));
+    	Page<Product> products = productRepository.findAll(PageRequest.of(page, size != null ? size : this.defaultPageSize));
     	
     	if( products != null && products.hasContent()) {
     		
-    		return new ResponseEntity<>(converter.converter(products.getContent()), HttpStatus.OK);
+    		return new ResponseEntity<>(productResponseConverter.converter(products.getContent()), HttpStatus.OK);
     		
     	}
     	
@@ -78,11 +85,11 @@ public class ProductController implements ProductsApi {
 	@Override
 	public ResponseEntity<ProductModel> findProductById(@PathVariable("idProduct") Long idProduct) {
 		
-		Optional<Product> product = repository.findById(idProduct);
+		Optional<Product> product = productRepository.findById(idProduct);
     	
     	if(product.isPresent()) {
     		
-    		return new ResponseEntity<>(converter.converter(product.get()), HttpStatus.OK);
+    		return new ResponseEntity<>(productModelConverter.converter(product.get()), HttpStatus.OK);
     		
     	}
 		
@@ -93,7 +100,7 @@ public class ProductController implements ProductsApi {
 	@Override
 	public ResponseEntity<Void> updateProduct(@Valid @RequestBody ProductModel body) {
 		
-		Optional<Product> product = repository.findById(body.getId());
+		Optional<Product> product = productRepository.findById(body.getId());
     	
     	if(product.isPresent()) {
     		
@@ -101,7 +108,7 @@ public class ProductController implements ProductsApi {
     		p.setCategories(findCategories(body));
     		p.setDescription(body.getDescription());
     		p.setName(body.getName());
-    		repository.save(p);
+    		productRepository.save(p);
 
     		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     		
@@ -114,9 +121,9 @@ public class ProductController implements ProductsApi {
 	@Override
 	public ResponseEntity<Void> deleteProduct(@PathVariable("idProduct") Long idProduct) {
 
-    	if(repository.existsById(idProduct)) {
+    	if(productRepository.existsById(idProduct)) {
     		
-    		repository.deleteById(idProduct);
+    		productRepository.deleteById(idProduct);
 
     		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     		
@@ -159,7 +166,7 @@ public class ProductController implements ProductsApi {
 		product.setCategories(findCategories(body));
 		product.setDescription(body.getDescription());
 		product.setName(body.getName());
-		repository.save(product);
+		productRepository.save(product);
 		
 	}
 }

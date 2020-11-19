@@ -123,9 +123,16 @@
                             <generateModelTests>false</generateModelTests>
                             <generateModelDocumentation>false</generateModelDocumentation>
                             <configOptions>
-                                <dateLibrary>java8-localdatetime</dateLibrary>
                                 <interfaceOnly>true</interfaceOnly>
-                            </configOptions>
+							    <java8>true</java8>
+							    <dateLibrary>custom</dateLibrary>
+							  </configOptions>
+                            <typeMappings>
+								<typeMapping>Date=Date</typeMapping>
+							</typeMappings>
+							<importMappings>
+							    <importMapping>Date=java.util.Date</importMapping>
+							</importMappings>
 						</configuration>
 					</execution>
 			   </executions>

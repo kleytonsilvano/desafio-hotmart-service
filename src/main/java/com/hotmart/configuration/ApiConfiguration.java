@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.hotmart.converter.ProductModelConverter;
+import com.hotmart.converter.ProductResponseConverter;
 
 @Configuration
 public class ApiConfiguration {
@@ -11,6 +12,11 @@ public class ApiConfiguration {
 	@Bean
 	public ProductModelConverter getProductModelConverter() {
 		return new ProductModelConverter();
+	}
+
+	@Bean
+	public ProductResponseConverter getProductResponseConverter() {
+		return new ProductResponseConverter();
 	}
 
 }
