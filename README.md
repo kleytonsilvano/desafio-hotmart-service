@@ -4,6 +4,7 @@
 <strong> src/main/resources/application.properties. Só rodar :) </strong>
 </p>
 <p> Acessar o swagger local: <a> http://localhost:8080/swagger-ui.html </a> </p>
+<p> Na pasta doc/ contém a collection para ser importada dentro do software do Postman e ser testado diretamente </p>
 <p> Necessário configurar o banco de dados, está configurado para utilizar my sql na porta 3306 </p>
 <p> Pode ser utilizado qualquer outro banco compatível com o JPA. Para continuar utilizando o MySQL seguir: </p>
 <p> Configuração: Dentro da pasta sql/ existe um arquivo ( backup.sql ) que contem todas as tabelas configuradas para rodar o projeto.</p>
