@@ -1,0 +1,14 @@
+package com.news.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.news.models.db.Product;
+import com.news.models.db.ScoreProduct;
+
+@Repository
+public interface ScoreProductRepository extends JpaRepository<ScoreProduct, Long> {
+
+	ScoreProduct findByProduct(Product product);
+	
+}

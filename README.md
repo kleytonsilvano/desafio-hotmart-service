@@ -1,4 +1,4 @@
-# DESAFIO-HOTMART-SERVICE
+# DESAFIO-NEWS-SERVICE
 
 <p> As variáveis necessárias para o projeto estão no arquivo de configurações do spring em: 
 <strong> src/main/resources/application.properties. Só rodar :) </strong>
