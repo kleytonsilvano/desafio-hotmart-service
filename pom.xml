@@ -10,9 +10,9 @@
 		<relativePath />
 	</parent>
 	<groupId>com.group</groupId>
-	<artifactId>desafio-hotmart-service</artifactId>
+	<artifactId>desafio-news-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>desafio-hotmart-service</name>
+	<name>desafio-news-service</name>
 	<description>Service responsible for exposing marketplace apis</description>
 
 	<properties>
